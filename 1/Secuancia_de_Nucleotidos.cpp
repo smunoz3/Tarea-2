@@ -1,5 +1,6 @@
 #include <iostream>
-#include "Secuencia_de_Nucleotidos.hpp"
+#include <fstream>
+#include "Secuancia_de_Nucleotidos.hpp"
 using namespace std;
 
 int main(){
