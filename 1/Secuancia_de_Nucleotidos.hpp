@@ -82,7 +82,23 @@ void tListaNucleotidos::next(){
     return;
 }
 
+void tListaNucleotidos::moveToPos(int i) {
+    // Mover a una posición
+    int j;
+    if (i < 0 || i > listSize){
+        return ;
+    }
+    curr = head;
+    pos = 0;
+    for (j = 0; j < i; j++ ){
+        curr = curr->sig;
+        pos++;
+    }
+    return;
+}
+
 void tListaNucleotidos::Inserciones(int i, char n) {
+    // Implementación del método Inserciones
     if (i < 0 || i > listSize) {
         return;
     }
@@ -93,23 +109,6 @@ void tListaNucleotidos::Inserciones(int i, char n) {
     curr->sig = aux;
     if (curr->sig == nullptr) {
         tail = aux;
-    }
-    listSize++;
-    return;
-}
-
-void tListaNucleotidos::Inserciones(int i, char n) {
-    // Implementación del método Inserciones
-    if (i < 0 || i > listSize){
-        return ;
-    }
-    
-    tNodo* aux = curr->sig;
-    curr->sig = new tNodo;
-    curr->sig->nucleotido = n;
-    curr->sig->sig = aux;
-    if (curr == tail){
-        tail = curr->sig;
     }
     listSize++;
     return;
