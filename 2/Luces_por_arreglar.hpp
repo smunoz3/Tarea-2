@@ -7,7 +7,6 @@ tNodoArbolBin* izq;
 tNodoArbolBin* der;
 };
 
-
 class tABB {
 private:
 tNodoArbolBin *raiz; // puntero al nodo raíz del ABB
@@ -71,10 +70,9 @@ else
 return findHelp(nodo->der, item);
 }
 
-// Pude estar mal enfocado
 int tABB::lower_bound(tNodoArbolBin x){
     int contador = 0;
-    return lower_boundHelp(raiz, x.posicion,contador);
+    return lower_boundHelp(raiz, x.posicion,contador); // revisar que retorna
 }
 int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor, int& contador){
     if (nodo == NULL){
@@ -91,33 +89,7 @@ int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor, int& contador){
     }
     return nodo->posicion;
 }
-/*
-int tABB::lower_bound(tNodoArbolBin x) {
-    int contador = 0;  // Inicializar el contador
-    return lower_boundHelp(raiz, x.posicion, contador);
-}
 
-int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor, int& contador) {
-    contador++;  // Incrementar el contador en cada llamada recursiva
-   
-    if (nodo == nullptr) {
-        return -1;  // Valor no encontrado
-    }
-    if (valor == nodo->posicion) {
-        return nodo->posicion;  // Nodo encontrado
-    }
-    if (valor < nodo->posicion) {
-        return lower_boundHelp(nodo->izq, valor, contador);
-    } else {
-        int resultado = lower_boundHelp(nodo->der, valor, contador);
-        if (resultado == -1) {
-            return nodo->posicion;  // Valor no encontrado, devuelve el valor más cercano inferior
-        } else {
-            return resultado;  // Valor encontrado en subárbol derecho
-        }
-    }
-} 
-*/
 void tABB::ENCENDER(int i){
     tNodoArbolBin nodo;
     nodo.posicion = i;
@@ -138,4 +110,8 @@ void tABB::CUANTOS_ENCENDER (int i){
     int nApagado = 0;
     int resultado = lower_boundHelp(nodo,i,nApagado);
     std::cout <<resultado<<std::endl;
+}
+
+void tABB::PARAR_PROGRAMA(){
+    std::remove("system");
 }
