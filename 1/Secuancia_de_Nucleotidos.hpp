@@ -16,7 +16,7 @@ private:
 
 public:
     tListaNucleotidos();
-    ~tListaNucleotidos(){};
+    ~tListaNucleotidos();
     void moveToStart();
     void moveToEnd();
     void prev();
@@ -25,6 +25,9 @@ public:
     void Inserciones(int i, char n);
     void Borrados(int i);
     void Intercambios(int i, char n);
+    void BorrarDatos();
+    char DatoPosActual(int i);
+    int tamaño();
 };
 
 tListaNucleotidos::tListaNucleotidos() {
@@ -145,4 +148,23 @@ void tListaNucleotidos::Intercambios(int i, char n) {
     }
     curr->nucleotido = n;
     return;
+}
+
+void tListaNucleotidos::BorrarDatos(){
+    curr = head;
+    while (curr != nullptr) {
+        tNodo* next = curr->sig;
+        delete curr;
+        curr = next;
+    }
+    head = nullptr;
+}
+
+char tListaNucleotidos::DatoPosActual(int i){
+    moveToPos(i);
+    return curr->nucleotido;
+}
+
+int tListaNucleotidos::tamaño(){
+    return listSize;
 }
