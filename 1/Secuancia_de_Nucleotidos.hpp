@@ -40,11 +40,11 @@ tListaNucleotidos::tListaNucleotidos() {
 tListaNucleotidos::~tListaNucleotidos() {
     //Este es el destructor de la lista de nucleotidos
     curr = head;
-    while (curr != nullptr) {
+    while (curr != NULL) {
         tNodo* next = curr->sig;
         delete curr;
         curr = next;
-}
+    }
 }
 
 void tListaNucleotidos::moveToStart(){
@@ -93,6 +93,9 @@ void tListaNucleotidos::moveToPos(int i) {
     }
     curr = head;
     pos = 0;
+    if (i==0){
+        return;
+    } ;
     for (j = 0; j < i; j++ ){
         curr = curr->sig;
         pos++;
@@ -105,12 +108,23 @@ void tListaNucleotidos::Inserciones(int i, char n) {
     if (i < 0 || i > listSize) {
         return;
     }
-    moveToPos(i);
+    if (i == 0) {
+        tNodo* aux = new tNodo;
+        aux->nucleotido = n;
+        aux->sig = head;
+        head = aux;
+        if (listSize == 0) {
+            tail = aux;
+        }
+        listSize++;
+        return;
+    }
+    moveToPos(i-1);
     tNodo* aux = new tNodo;
     aux->nucleotido = n;
     aux->sig = curr->sig;
     curr->sig = aux;
-    if (curr->sig == nullptr) {
+    if (curr->sig == NULL) {
         tail = aux;
     }
     listSize++;
@@ -124,7 +138,7 @@ void tListaNucleotidos::Borrados(int i) {
     }
     moveToPos(i - 1);
     tNodo* nodoAnterior = curr;
-    if (nodoAnterior->sig == nullptr) {
+    if (nodoAnterior->sig == NULL) {
         return;
     }
     tNodo* nodoBorrado = nodoAnterior->sig;
@@ -143,7 +157,7 @@ void tListaNucleotidos::Intercambios(int i, char n) {
         return;
     }
     moveToPos(i);
-    if (curr == nullptr) {
+    if (curr == NULL) {
         return;
     }
     curr->nucleotido = n;
@@ -157,7 +171,9 @@ void tListaNucleotidos::BorrarDatos(){
         delete curr;
         curr = next;
     }
-    head = nullptr;
+    head = tail = curr = new tNodo; // Reinicializar los punteros
+    listSize = 0;
+    pos = 0;
 }
 
 char tListaNucleotidos::DatoPosActual(int i){
