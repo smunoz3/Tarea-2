@@ -4,38 +4,31 @@
 #include "Secuancia_de_Nucleotidos.hpp"
 using namespace std;
 
-#include <iostream>
-
 int main() {
-    
-    ifstream arch_entrada;
-    arch_entrada.open("secuencias-nucleotidos.txt");
-    if (!arch_entrada.is_open()){
+    //Se abre el archivo de entrada.txt
+    ifstream txt_entrada;
+    txt_entrada.open("secuencias-nucleotidos.txt");
+    if (!txt_entrada.is_open()){
         cout << "Error al abrir el archivo" << endl;
         return 1;
     }
-
+    //Se abre el archivo de salida.txt
+    ofstream txt_salida;
+    txt_salida.open("secuencias-reconstruidas.txt");
+    if (!txt_salida.is_open()){
+        cout << "Error al abrir el archivo" << endl;
+        return 1;
+    }
+    //Se define la lista enlazada.
+    tListaNucleotidos lista = tListaNucleotidos(); 
+    //Se definen variables y se les asigna valor por el txt de entrada.
     int tam_secuencia;
     string secuencia_base;
     int num_secuencias;
-
-    arch_entrada >> tam_secuencia;
-    arch_entrada >> secuencia_base;
-    arch_entrada >> num_secuencias;
-
-
-    tListaNucleotidos lista = tListaNucleotidos(); //Inicializar la lista
-
-    //Crear archivo de salida
-    ofstream arch_salida;
-    arch_salida.open("secuencias-reconstruidas.txt");
-    if (!arch_salida.is_open()){
-        cout << "Error al abrir el archivo" << endl;
-        return 1;
-    }
-    
-
-
+    txt_entrada >> tam_secuencia;
+    txt_entrada >> secuencia_base;
+    txt_entrada >> num_secuencias;
+    //Se definen nuevas variables que serán utilizadas más adelante
     int modificaciones;
     string operacion;
     int posicion;
@@ -44,50 +37,39 @@ int main() {
     string lista_modificada;
 
     for(int i=0; i<num_secuencias; i++){
-        arch_entrada >> modificaciones;
+        txt_entrada >> modificaciones;
         //Recorrer el string secuencia_base y hacer inserciones en la lista
-
- 
         for(int k=0;k<tam_secuencia;k++){
         letra = secuencia_base[k];
         lista.Inserciones(k,letra);
         }
-
         for(int j=0; j<modificaciones; j++){
-
-            //Ver que operacion se desea realizar
-            arch_entrada >> operacion;
+            txt_entrada >> operacion;
             if(operacion == "INSERTAR"){
-                arch_entrada >> posicion;
-                arch_entrada >> nucleotido;
+                txt_entrada >> posicion;
+                txt_entrada >> nucleotido;
                 lista.Inserciones(posicion,nucleotido);
             }else if(operacion == "INTERCAMBIAR"){
-                arch_entrada >> posicion;
-                arch_entrada >> nucleotido;
+                txt_entrada >> posicion;
+                txt_entrada >> nucleotido;
                 lista.Intercambios(posicion,nucleotido);
             }else if(operacion == "BORRAR"){
-                arch_entrada >> posicion;
+                txt_entrada >> posicion;
                 lista.Borrados(posicion);
             }
-
-            
         }
         //Recorrer la lista y guardarla en un string
-        for(int a=0; a<lista.tamaño(); a++){
-            lista_modificada = lista_modificada + lista.DatoPosActual(a);
+        for(int a=0; a<lista.size_ListaNucleotidos(); a++){
+            lista_modificada = lista_modificada + lista.InfoNodoActual(a);
         }
-
         //Guardar la lista en el archivo
-        arch_salida << lista_modificada << endl;
-
+        txt_salida << lista_modificada << endl;
         lista_modificada = "";
         //Borrar los elementos de la lista para que quede vacia
         lista.BorrarDatos();
     }
-    
-
-    arch_salida.close();
-    arch_entrada.close();
+    txt_salida.close();
+    txt_entrada.close();
     return 0;
     
    /*

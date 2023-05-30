@@ -1,11 +1,13 @@
 #include <iostream>
 #include <string>
 
+// Struct del nodo en la lista enlazada
 struct tNodo {
     char nucleotido;
     tNodo* sig;
 };
 
+//Definición del private y public de la clase tListaNucleotidos
 class tListaNucleotidos {
 private:
     tNodo* head;
@@ -26,19 +28,41 @@ public:
     void Borrados(int i);
     void Intercambios(int i, char n);
     void BorrarDatos();
-    char DatoPosActual(int i);
-    int tamaño();
+    char InfoNodoActual(int i);
+    int size_ListaNucleotidos();
 };
 
+/*****
+* Constructor tListaNucleotidos
+******
+* Esta función, crea una lista vacía y la inicializa en la posición cero
+* con sus respectivos punteros.
+******
+* Input:
+* No es requerido ningún parámetro.
+******
+* Returns:
+* No retorna nada debido a que es el constructor.
+*****/
 tListaNucleotidos::tListaNucleotidos() {
-    //Constructor de la lista de nucleotidos
     head = tail = curr = new tNodo;
     listSize = 0;
     pos = 0;
 }
 
+/*****
+* Destructor ~tListaNucleotidos
+******
+* La función como bien dice el nombre, destruye la lista, eliminando cada nodo
+* desde el inicio de la lista.
+******
+* Input:
+* No es requerido ningún parámetro.
+******
+* Returns:
+* No retorna nada debido a que es el destructor.
+*****/
 tListaNucleotidos::~tListaNucleotidos() {
-    //Este es el destructor de la lista de nucleotidos
     curr = head;
     while (curr != NULL) {
         tNodo* next = curr->sig;
@@ -47,6 +71,18 @@ tListaNucleotidos::~tListaNucleotidos() {
     }
 }
 
+/*****
+* void moveToStart
+******
+* Función vista en clases, la cual mueve el current y la 
+* posición al inicio de la lista.
+******
+* Input:
+* No es requerido ningún parámetro.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 void tListaNucleotidos::moveToStart(){
     //Moverse al inicio de la lista
     curr = head;
@@ -54,15 +90,37 @@ void tListaNucleotidos::moveToStart(){
     return ;
 }
 
+/*****
+* void moveToEnd
+******
+* Función vista en clases, la cual mueve el curr y la
+* pos al final de la lista.
+******
+* Input:
+* No es requerido ningún parámetro.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 void tListaNucleotidos::moveToEnd(){
-    //Moverse al final de la lista
     curr = tail;
     pos = listSize;
     return;
 }
 
+/*****
+* void prev
+******
+* Función vista en clases, la cual mueve el curr y la
+* pos al elemento anterior del que se encontraba en la lista.
+******
+* Input:
+* No es requerido ningún parámetro.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 void tListaNucleotidos::prev(){
-    //Moverse a la posición previa
     tNodo* temp;
     if (curr == head){
         return;
@@ -76,8 +134,19 @@ void tListaNucleotidos::prev(){
     return;
 }
 
+/*****
+* void next
+******
+* Función vista en clases, la cual mueve el curr y la
+* pos al elemento siguiente del que se encontraba en la lista.
+******
+* Input:
+* No es requerido ningún parámetro.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 void tListaNucleotidos::next(){
-    //Moverse a la siguiente posición
     if (curr != tail){
         curr = curr->sig;
         pos++;
@@ -85,15 +154,28 @@ void tListaNucleotidos::next(){
     return;
 }
 
+/*****
+* void moveToPos
+******
+* Función vista en clases, la cual recibe una posición a la que se
+* quiere mover en la lista, modificando el curr y la pos actual a la
+* deseada.
+******
+* Input:
+* int i: Este entero es la posición hacia la que se quiere mover el
+* curr en la lista.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 void tListaNucleotidos::moveToPos(int i) {
-    // Mover a una posición
     int j;
     if (i < 0 || i > listSize){
         return ;
     }
     curr = head;
     pos = 0;
-    if (i==0){
+    if (i == 0){
         return;
     } ;
     for (j = 0; j < i; j++ ){
@@ -103,8 +185,24 @@ void tListaNucleotidos::moveToPos(int i) {
     return;
 }
 
+/*****
+* void Inserciones
+******
+* Implementación del método de inserciones, inspirado en la función insert
+* vista en clases.
+* Esta función utiliza dentro de esta misma, la función moveToPos, 
+* se dirige al nodo anterior al que va a ser insertado el
+* elemento y luego se realizan operaciones con los nodos para insertar este
+* elemento en la posición correspondiente.
+******
+* Input:
+* int i: Posición en la que se quiere insertar el elemento.
+* char n: Elemento que será insertado en la lista enlazada.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 void tListaNucleotidos::Inserciones(int i, char n) {
-    // Implementación del método Inserciones
     if (i < 0 || i > listSize) {
         return;
     }
@@ -131,12 +229,35 @@ void tListaNucleotidos::Inserciones(int i, char n) {
     return;
 }
 
+/*****
+* void Borrados
+******
+* Implementación del método de borrados, esta función sigue la misma
+* lógica que la función Inserciones, también utiliza la función moveToPos,
+* solo que en esta función, se elimina el elemento que está en la posición
+* i de la lista enlazada.
+******
+* Input:
+* int i: Posición en la que se quiere borrar el elemento de la lista enlazada.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 void tListaNucleotidos::Borrados(int i) {
-    //Borrar el nucleotido en la posición i
     if (i < 0 || i >= listSize) {
         return;
     }
-    moveToPos(i - 1);
+    if (i == 0) {
+        tNodo* nodoBorrado = head;
+        head = head->sig;
+        if (head == NULL) {
+            tail = NULL;
+        }
+        delete nodoBorrado;
+        listSize--;
+        return;
+    }
+    moveToPos(i-1);
     tNodo* nodoAnterior = curr;
     if (nodoAnterior->sig == NULL) {
         return;
@@ -151,6 +272,19 @@ void tListaNucleotidos::Borrados(int i) {
     return;
 }
 
+/*****
+* void Intercambios
+******
+* Esta función intercambia el elemento que está en la posición i por 
+* el nuevo elemento n que se quiere introducir a la lista enlazada.
+******
+* Input:
+* int i: Posición en donde se quiere realizar el intercambio.
+* char n: El nuevo elemento que se quiere introducir en la posición i.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 void tListaNucleotidos::Intercambios(int i, char n) {
     //Intercambiar el nucleotido de la posición i por el nucleotido n
     if (i < 0 || i >= listSize) {
@@ -164,6 +298,19 @@ void tListaNucleotidos::Intercambios(int i, char n) {
     return;
 }
 
+/*****
+* void BorrarDatos
+******
+* Esta función se basa en el destructor de tListaNucleotidos, se borran
+* todos los elementos desde el head, y luego el tamaño de la lista y la pos
+* se asignan al valor 0.
+******
+* Input:
+* No es requerido ningún parámetro.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 void tListaNucleotidos::BorrarDatos(){
     curr = head;
     while (curr != nullptr) {
@@ -176,11 +323,34 @@ void tListaNucleotidos::BorrarDatos(){
     pos = 0;
 }
 
-char tListaNucleotidos::DatoPosActual(int i){
+/*****
+* char InfoNodoActual
+******
+* Función que llama a moveToPos en la posición i, que es en la pos,
+* en la que se quiere saber el elemento que se encuentra ahí.
+******
+* Input:
+* int i: Posición en la cual se quiere obtener el elemento en la lista enlazada.
+******
+* Returns:
+* Se retorna el elemento que está en la posición i.
+*****/
+char tListaNucleotidos::InfoNodoActual(int i){
     moveToPos(i);
     return curr->nucleotido;
 }
 
-int tListaNucleotidos::tamaño(){
+/*****
+* int size_ListaNucleotidos
+******
+* Función que usa la operación listSize, para obtener el tamaño de la lista
+******
+* Input:
+* No es requerido ningún parámetro.
+******
+* Returns:
+* Se retorna un entero el cual contiene el tamaño de la lista.
+*****/
+int tListaNucleotidos::size_ListaNucleotidos(){
     return listSize;
 }
