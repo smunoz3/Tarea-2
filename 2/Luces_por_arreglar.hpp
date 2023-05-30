@@ -11,9 +11,11 @@ class tABB {
 private:
 tNodoArbolBin *raiz; // puntero al nodo raíz del ABB
 int nElems; // cantidad de elementos en el ABB
+
 public:
 tABB();
-~tABB(){};
+~tABB();
+void BorrarArbol(tNodoArbolBin* nodo);
 void insert(tNodoArbolBin x);       //bien
 tNodoArbolBin* insertHelp(tNodoArbolBin* nodo, int valor);
 bool find(tNodoArbolBin x);     //bien
@@ -28,6 +30,21 @@ void PARAR_PROGRAMA(); */
 tABB::tABB(){ //Constructor
 raiz = NULL;
 nElems = 0;
+}
+
+// Destructor
+tABB::~tABB() {
+    // Llamamos a una función auxiliar para liberar la memoria recursivamente
+    BorrarArbol(raiz);
+}
+
+//Con esto se borra el arbol recursivamente
+void tABB::BorrarArbol(tNodoArbolBin* nodo) {
+    if (nodo != nullptr) {
+        BorrarArbol(nodo->izq);
+        BorrarArbol(nodo->der);
+        delete nodo;
+    }
 }
 
 void tABB::insert(tNodoArbolBin x){
