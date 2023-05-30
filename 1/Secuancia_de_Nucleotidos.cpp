@@ -138,3 +138,5 @@ int main() {
     */
 
 }
+//g++ Secuancia_de_Nucleotidos.cpp Secuancia_de_Nucleotidos.hpp -o nucleogods -Wall
+//./nucleogods < secuencias-nucleotidos.txt

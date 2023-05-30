@@ -28,13 +28,13 @@ int main() {
     int pos_encendido = 0;
 
     tNodoArbolBin* raiz = NULL;
-    insertar(raiz, 5);
-    insertar(raiz, 3);
-    insertar(raiz, 7);
+    insertar(raiz, 0);
+    insertar(raiz, 1);
     insertar(raiz, 2);
+    insertar(raiz, 3);
     insertar(raiz, 4);
+    insertar(raiz, 5);
     insertar(raiz, 6);
-    insertar(raiz, 8);
 
     while (true)
     {
