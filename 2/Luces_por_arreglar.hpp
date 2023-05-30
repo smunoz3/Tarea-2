@@ -14,12 +14,12 @@ int nElems; // cantidad de elementos en el ABB
 public:
 tABB();
 ~tABB(){};
-void insert(tNodoArbolBin x);
-tNodoArbolBin* insertHelp(tNodoArbolBin* nodo, int valor,bool encendido);
-bool find(tNodoArbolBin x);
+void insert(tNodoArbolBin x);       //bien
+tNodoArbolBin* insertHelp(tNodoArbolBin* nodo, int valor);
+bool find(tNodoArbolBin x);     //bien
 tNodoArbolBin* findHelp(tNodoArbolBin *nodo, tNodoArbolBin item);
 int lower_bound(tNodoArbolBin x);
-int lower_boundHelp(tNodoArbolBin* nodo, int valor, int& contador);
+int lower_boundHelp(tNodoArbolBin* nodo, int valor);
 void ENCENDER (int i);
 void CUANTOS_ENCENDER (int i);
 void PARAR_PROGRAMA();
@@ -35,16 +35,21 @@ void tABB::insert(tNodoArbolBin x){
         std::cout<<"Elemento ya ingresado"<<std::endl;
         return;
     }
-    raiz = insertHelp(raiz, x.posicion,x.encendido);
+    raiz = insertHelp(raiz, x.posicion);
 }
-tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* nodo, int valor,bool encendido){
+tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* nodo, int valor){
     if (nodo == NULL) {
-        return nodo;
+        tNodoArbolBin* nuevoNodo = new tNodoArbolBin();         //new
+        nuevoNodo->posicion = valor;
+        nuevoNodo->encendido = false;
+        nuevoNodo->der = NULL;
+        nuevoNodo->izq = NULL;
+        return nuevoNodo;  
     }
     if (valor < nodo->posicion) {
-        nodo->izq = insertHelp(nodo->izq, valor,encendido);
+        nodo->izq = insertHelp(nodo->izq, valor);
     } else if (valor > nodo->posicion) {
-        nodo->der = insertHelp(nodo->der, valor,encendido);
+        nodo->der = insertHelp(nodo->der, valor);
     }
     return nodo;
 }
@@ -57,24 +62,48 @@ bool tABB::find(tNodoArbolBin item) {
 }
 //
 tNodoArbolBin* tABB::findHelp(tNodoArbolBin *nodo, tNodoArbolBin item) {
-if (nodo == NULL) { // item no está en el ABB- puede que sea return
-    return NULL;
-} 
-if (nodo->posicion == item.posicion){
-    return nodo; // item encontrado
-}
-if (item.posicion < nodo->posicion){
-    return findHelp(nodo->izq, item);
-}
-else
-return findHelp(nodo->der, item);
+    if (nodo == NULL) { // item no está en el ABB- puede que sea return
+        return NULL;
+    } 
+    if (nodo->posicion == item.posicion){
+        return nodo; // item encontrado
+    }
+    if (item.posicion < nodo->posicion){
+        return findHelp(nodo->izq, item);
+    }
+    else{
+        return findHelp(nodo->der, item);
+    }
 }
 
-int tABB::lower_bound(tNodoArbolBin x){
+/* int tABB::lower_bound(tNodoArbolBin x){
     int contador = 0;
     return lower_boundHelp(raiz, x.posicion,contador); // revisar que retorna
+} */
+
+int tABB::lower_bound(tNodoArbolBin x){
+    return lower_boundHelp(raiz, x.posicion);
 }
-int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor, int& contador){
+int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor){
+    if (nodo == NULL){
+        return -1;
+    }
+    if (nodo->posicion == valor){
+        return nodo->posicion;
+    }
+    if (valor < nodo->posicion) {
+        return lower_boundHelp(nodo->izq, valor);
+    } 
+    if (valor > nodo->posicion) {
+        return lower_boundHelp(nodo->der, valor);
+    }
+    return nodo->posicion;
+}
+
+
+
+/* int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor, int& contador){
+    contador ++;
     if (nodo == NULL){
         return -1;
     }
@@ -88,9 +117,9 @@ int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor, int& contador){
         return lower_boundHelp(nodo->der, valor,contador);
     }
     return nodo->posicion;
-}
+} */
 
-void tABB::ENCENDER(int i){
+/* void tABB::ENCENDER(int i){
     tNodoArbolBin nodo;
     nodo.posicion = i;
     if (find(nodo)!=true){
@@ -109,9 +138,14 @@ void tABB::CUANTOS_ENCENDER (int i){
     nodo->posicion = i;
     int nApagado = 0;
     int resultado = lower_boundHelp(nodo,i,nApagado);
-    std::cout <<resultado<<std::endl;
+    if (resultado != -1){
+        
+    }
+    else {
+        std::cout <<resultado<<std::endl;
+    }
 }
 
 void tABB::PARAR_PROGRAMA(){
     std::remove("system");
-}
+} */
