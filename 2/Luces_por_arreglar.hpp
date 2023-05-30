@@ -20,9 +20,9 @@ bool find(tNodoArbolBin x);     //bien
 tNodoArbolBin* findHelp(tNodoArbolBin *nodo, tNodoArbolBin item);
 int lower_bound(tNodoArbolBin x);
 int lower_boundHelp(tNodoArbolBin* nodo, int valor);
-void ENCENDER (int i);
+/* void ENCENDER (int i);
 void CUANTOS_ENCENDER (int i);
-void PARAR_PROGRAMA();
+void PARAR_PROGRAMA(); */
 };
 
 tABB::tABB(){ //Constructor
@@ -39,7 +39,7 @@ void tABB::insert(tNodoArbolBin x){
 }
 tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* nodo, int valor){
     if (nodo == NULL) {
-        tNodoArbolBin* nuevoNodo = new tNodoArbolBin();         //new
+        tNodoArbolBin* nuevoNodo = new tNodoArbolBin();         //new recordar borrar
         nuevoNodo->posicion = valor;
         nuevoNodo->encendido = false;
         nuevoNodo->der = NULL;
@@ -62,7 +62,7 @@ bool tABB::find(tNodoArbolBin item) {
 }
 //
 tNodoArbolBin* tABB::findHelp(tNodoArbolBin *nodo, tNodoArbolBin item) {
-    if (nodo == NULL) { // item no está en el ABB- puede que sea return
+    if (nodo == NULL) { // item no está en el ABB
         return NULL;
     } 
     if (nodo->posicion == item.posicion){
@@ -85,10 +85,12 @@ int tABB::lower_bound(tNodoArbolBin x){
     return lower_boundHelp(raiz, x.posicion);
 }
 int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor){
-    if (nodo == NULL){
+    if (nodo == NULL){ // no encontro
+    std::cout<<"no encontro"<<std::endl;
         return -1;
     }
     if (nodo->posicion == valor){
+        std::cout<<"encontro"<<std::endl;
         return nodo->posicion;
     }
     if (valor < nodo->posicion) {

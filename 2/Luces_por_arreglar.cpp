@@ -4,10 +4,38 @@
 
 using namespace std;
 
+void insertar(tNodoArbolBin*& raiz, int posicion) {
+    if (raiz == nullptr) {
+        raiz = new tNodoArbolBin;
+        raiz->posicion = posicion;
+        raiz->encendido = false;
+        raiz->izq = nullptr;
+        raiz->der = nullptr;
+        return;
+    }
+    if (posicion < raiz->posicion) {
+        insertar(raiz->izq, posicion);
+    } else if (posicion > raiz->posicion) {
+        insertar(raiz->der, posicion);
+    } else {
+        // El valor ya existe en el árbol, puedes decidir cómo manejarlo
+        std::cout << "Elemento ya ingresado" << std::endl;
+    }
+}
 
 int main() {
-    tABB bst;
-    int pos_encendido =0;
+    tABB treeBB;
+    int pos_encendido = 0;
+
+    tNodoArbolBin* raiz = NULL;
+    insertar(raiz, 5);
+    insertar(raiz, 3);
+    insertar(raiz, 7);
+    insertar(raiz, 2);
+    insertar(raiz, 4);
+    insertar(raiz, 6);
+    insertar(raiz, 8);
+
     while (true)
     {
         string comando;
@@ -18,8 +46,8 @@ int main() {
             int i;
             cin >> i;
             nodo.posicion = i;
-            if (!bst.find(nodo)){
-                bst.insert(nodo);
+            if (!treeBB.find(nodo)){
+                treeBB.insert(nodo);
                 pos_encendido++;
             }
         }
@@ -28,12 +56,14 @@ int main() {
             int i;
             cin >> i;
             nodo.posicion = i;
-            int closest = bst.lower_bound(nodo);
-            if (closest == -1){
+            int cercano = treeBB.lower_bound(nodo);
+            if (cercano == -1){
+                cout<<"uno"<<endl;
                 cout<<pos_encendido<<endl;
             }
             else {
-                int count = closest -i;
+                int count = cercano -i;
+                cout<<"dos"<<endl;
                 cout<<count <<endl;
             }
         }
