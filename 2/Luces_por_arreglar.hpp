@@ -1,40 +1,76 @@
 #include <iostream>
 
+// Struct del nodo del arbol binario
 struct tNodoArbolBin{
 int posicion;
-//bool encendido;
 tNodoArbolBin* izq;
 tNodoArbolBin* der;
 };
 
+//Definición del private y public de la clase tABB
 class tABB {
 private:
-tNodoArbolBin *raiz; // puntero al nodo raíz del ABB
-int nElems; // cantidad de elementos en el ABB
+tNodoArbolBin *raiz; 
+int nElems; 
 
 public:
 tABB();
 ~tABB();
 void BorrarArbol(tNodoArbolBin* nodo);
-void insert(tNodoArbolBin x);       //bien
+void insert(tNodoArbolBin x);       
 tNodoArbolBin* insertHelp(tNodoArbolBin* nodo, int valor);
-bool find(tNodoArbolBin x);     //bien
+bool find(tNodoArbolBin x); 
 tNodoArbolBin* findHelp(tNodoArbolBin *nodo, tNodoArbolBin item);
 int lower_bound(tNodoArbolBin x);
 int lower_boundHelp(tNodoArbolBin* nodo, int valor);
 };
 
+/*****
+* Constructor tABB
+******
+* Esta funcion inicializa la raiz en NULL
+* y define que no tiene ningun elemento
+******
+* Input:
+* No se requiere ningun parametro
+******
+* Returns:
+* No retorna nada debido a que es el constructor.
+*****/
 tABB::tABB(){ //Constructor
 raiz = NULL;
 nElems = 0;
 }
 
-// Destructor
+/*****
+* Destructor ~tABB
+******
+* Este ocupa la funcion BorrarArbol para liberar la memoria recursivamente
+******
+* Input:
+* No se requiere ningun parametro
+******
+* Returns:
+* No retorna nada debido a que es el destructor.
+*****/
 tABB::~tABB() {
-    // Llamamos a una función auxiliar para liberar la memoria recursivamente
     BorrarArbol(raiz);
 }
 
+/*****
+* void BorrarArbol
+******
+* Este revisa si el nodo entregado como parametro, esta vacio o no.
+* En caso de que este vacio, se llama recursivamente a si mismo con parametros:
+* su hijo izquierdo y luego el derecho.
+* Y elimina el nodo pasado como parametro.
+******
+* Input:
+* tNodoArbolBin* nodo: nodo el cual se analiza para hacer los borrados.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 //Con esto se borra el arbol recursivamente
 void tABB::BorrarArbol(tNodoArbolBin* nodo) {
     if (nodo != NULL) {
@@ -44,33 +80,69 @@ void tABB::BorrarArbol(tNodoArbolBin* nodo) {
     }
 }
 
+
+/*****
+* void insert
+******
+* Se llama a la funcion insertHelp a la cual se le dan como parametros
+* La raiz del arbol y la posicion del nodo x que se quiere insertar.
+* Aumenta en 1 el valor del numero de elementos en el arbol
+******
+* Input:
+* tNodoArbolBin x: nodo el cual se inserta en el arbol.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 void tABB::insert(tNodoArbolBin x) {
     raiz = insertHelp(raiz, x.posicion);
     nElems = x.posicion + 1;
 }
 
+/*****
+* tNodoArbolBin* insertHelp
+******
+* Si el nodo entregado esta vacio, lo inicializa y le da como posicion el valor que se la da como parametro
+* Si este existe, se revisa si el valor es mayor o menor a la posicion del nodo.
+* Si es menor, se llama a si misma recursivamente por el hijo izquierdo
+* Si es mayor, se llama a si misma recursivamente por el hijo derecho
+******
+* Input:
+* tNodoArbolBin* nodo: nodo el cual se compara con valor, o se crea en caso de ser NULL
+* int valor: Entero el cual se compara con el nodo, este representa la posicion del nodo
+* a crear
+******
+* Returns:
+* tNodoArbolBin*: Este es el nuevo nodo creado en caso de no existir anteriormente.
+*****/
 tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* nodo, int valor) {
     if (nodo == NULL) {
-        // Creamos un nuevo nodo y lo retornamos como el nodo actual
         tNodoArbolBin* nuevoNodo = new tNodoArbolBin;
         nuevoNodo->posicion = valor;
-        //nuevoNodo->encendido = false;
         nuevoNodo->izq = NULL;
         nuevoNodo->der = NULL;
         return nuevoNodo;
     }
 
     if (valor < nodo->posicion) {
-        // El valor es menor, por lo tanto, debe ir en el subárbol izquierdo
         nodo->izq = insertHelp(nodo->izq, valor);
     } else if (valor > nodo->posicion) {
-        // El valor es mayor, por lo tanto, debe ir en el subárbol derecho
         nodo->der = insertHelp(nodo->der, valor);
     }
     return nodo;
 }
 
-
+/*****
+* bool find
+******
+* Este revisa si el nodo entregado existe o no con ayuda de la funcion findHelp
+******
+* Input:
+* tNodoArbolBin item: nodo el cual se busca determinar si existe o no.
+******
+* Returns:
+* bool: retorna true en caso de existir y false en caso de no existir.
+*****/
 bool tABB::find(tNodoArbolBin item) {
     if (findHelp(raiz, item)!=NULL){
         return true;
@@ -78,12 +150,30 @@ bool tABB::find(tNodoArbolBin item) {
     return false;
 }
 
+/*****
+* tNodoArbolBin* findHelp
+******
+* Compara el nodo con la raiz
+* Si el nodo entregado no existe, retorna null
+* Si existe, lo compara con la raiz del arbol
+* Si la posicion del nodo es igual, se ha encontrado el nodo
+* Si la posicion es menor, se llama a si misma recursivamente con el hijo izquierdo de la raiz
+* Si la posicion es mayor, se llama a si misma recursivamente con el hijo derecho de la raiz
+******
+* Input:
+* tNodoArbolBin *raiz: Raiz del arbol
+* tNodoArbolBin item: Nodo que se desea encontrar
+******
+* Returns:
+* tNodoArbolBin*: retorna NULL si no encuentra al item
+* y retorna la raiz en caso de encontrar el item
+*****/
 tNodoArbolBin* tABB::findHelp(tNodoArbolBin *raiz, tNodoArbolBin item) {
-    if (raiz == NULL) { // item no está en el ABB
+    if (raiz == NULL) { 
         return NULL;
     } 
     if (raiz->posicion == item.posicion){
-        return raiz; // item encontrado
+        return raiz; 
     }
     if (item.posicion < raiz->posicion){
         return findHelp(raiz->izq, item);
@@ -93,11 +183,40 @@ tNodoArbolBin* tABB::findHelp(tNodoArbolBin *raiz, tNodoArbolBin item) {
     }
 }
 
+/*****
+* int lower_bound
+******
+* Busca el primer valor menor o igual a x
+* Este llama a lower_boundHelp con la raiz del arbol
+* y la posicion del nodo entregado como parametro
+******
+* Input:
+* tNodoArbolBin x: nodo el cual se da como parametro a lower_boundHelp
+******
+* Returns:
+* int: retorna la posicion del nodo menor.
+*****/
 int tABB::lower_bound(tNodoArbolBin x){
     return lower_boundHelp(raiz, x.posicion);
 }
+
+/*****
+* int lower_boundHelp
+******
+* Si la posicion del nodo es menor o igual al valor, se encontro la posicion
+* Si la posicion es mayor o menor al valor
+* Se llama recursivamente a si mismo por el hijo izquierdo y el derecho respectivamente
+* En caso de no encontrar, retorna -1
+******
+* Input:
+* tNodoArbolBin* nodo: nodo el cual se compara con el valor
+* int valor: posicion del nodo el cual se quiere encontrar
+******
+* Returns:
+* int: posicion del nodo buscado, o -1 en caso de no encontrar.
+*****/
 int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor){
-    if (nodo == NULL){ // no encontro
+    if (nodo == NULL){ 
         return -1;
     }
     if (nodo->posicion <= valor){
@@ -112,6 +231,23 @@ int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor){
     return nodo->posicion;
 }
 
+/*****
+* void ENCENDER
+******
+* Se enciende el poste en i.
+* Esto se hace añadiendolo a un arbol binario.
+* Se crea un nodo con posicion i
+* Si el nodo no se encuentra en el arbol (ya esta encendido) no hace nada
+* Si no se encuentra, lo añade al arbol.
+******
+* Input:
+* tABB& treeBB: Arbol binario
+* int i: posicion que se desea encender
+* int& postes_encendidos: numero de postes encendidos y tamaño del arbol.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 void ENCENDER(tABB& treeBB,int i, int& postes_encendidos){
     tNodoArbolBin nodo;
     nodo.posicion = i;
@@ -121,7 +257,26 @@ void ENCENDER(tABB& treeBB,int i, int& postes_encendidos){
             }
 }
 
-void CUANTOS_ENCENDER(tABB& treeBB, int i, int& postes_encendidos) {
+/*****
+* void CUANTOS_ENCENDER
+******
+* Imprime por pantalla cuántos postes están apagados entre la posición i y la posición
+* del poste encendido más cercano en una posición menor o igual a i
+* Si no hay ninguno, imprime la cantidad de postes apagados entre 0 e i.
+* Se crea un nodo con posicion i
+* Si esta en su misma posicion imprime 0
+* Si es menor o igual, se llama a lower_bound para encontrar el primer valor menor a i
+* Si lo encuentra, se resta la posicion i con la posicion del menor encendido
+* Si no lo encuentra, 
+******
+* Input:
+* tABB& treeBB: Arbol binario
+* int i: posicion que se desea analizar.
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
+void CUANTOS_ENCENDER(tABB& treeBB, int i) {
     tNodoArbolBin nodo;
     nodo.posicion = i;
     int resultado = 0;
@@ -133,11 +288,22 @@ void CUANTOS_ENCENDER(tABB& treeBB, int i, int& postes_encendidos) {
     if (menor_o_igual != -1) {
         resultado = i - menor_o_igual;
     } else {
-        resultado = i + 1 - postes_encendidos;
+        resultado = i + 1;
     }
     std::cout << resultado << std::endl;
 }
 
+/*****
+* void PARAR_PROGRAMA
+******
+* Retorna los numeros de postes encendidos
+******
+* Input:
+* int postes_encendidos: cantidad de postes encendidos
+******
+* Returns:
+* No retorna nada debido a que es una función del tipo void.
+*****/
 void PARAR_PROGRAMA(int postes_encendidos) {
     std::cout << postes_encendidos << std::endl;
 }
