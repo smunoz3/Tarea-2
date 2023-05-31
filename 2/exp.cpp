@@ -32,8 +32,13 @@ int main() {
 // ./exp
 
 // cd 2
-// g++ Luces_por_arreglar.cpp Luces_por_arreglar.hpp -o Luces -Wall
-// ./Luces
 
-//g++ Secuancia_de_Nucleotidos.cpp Secuancia_de_Nucleotidos.hpp -o nucleogods -Wall
+//Se añade -g para ocupar el valgrind
+// g++ -g Luces_por_arreglar.cpp -g Luces_por_arreglar.hpp -o Luces -Wall
+// ./Luces
+//valgrind --leak-check=yes ./Luces
+
+//Se añade -g para ocupar el valgrind
+//g++ -g Secuancia_de_Nucleotidos.cpp  -g Secuancia_de_Nucleotidos.hpp -o nucleogods -Wall
 //./nucleogods < secuencias-nucleotidos.txt
+//valgrind --leak-check=yes ./nucleogods
