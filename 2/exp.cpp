@@ -27,3 +27,6 @@ int main() {
 
     return 0;
 }
+
+// g++ exp.cpp exp.hpp -o exp -Wall
+// ./exp

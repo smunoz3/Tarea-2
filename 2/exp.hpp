@@ -119,11 +119,21 @@ void ENCENDER(tABB& treeBB, int i, int& postes_encendidos) {
 }
 
 void CUANTOS_ENCENDER(tABB& treeBB, int i, int& postes_encendidos) {
+    int result = 0;
+
     if (treeBB.find(i)) {
-        std::cout << i << std::endl;
-    } else {
-        std::cout << i + 1 - postes_encendidos << std::endl;
+        std::cout << result << std::endl;
+        return;
     }
+
+    int menor_o_igual = treeBB.lower_bound(i);
+    if (menor_o_igual != -1) {
+        result = i - menor_o_igual;
+    } else {
+        result = i + 1 - postes_encendidos;
+    }
+
+    std::cout << result << std::endl;
 }
 
 void PARAR_PROGRAMA(int postes_encendidos) {

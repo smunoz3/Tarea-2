@@ -3,7 +3,7 @@
 #include "Luces_por_arreglar.hpp"
 
 using namespace std;
-
+/* 
 void insertar(tNodoArbolBin*& raiz, int posicion) {
     if (raiz == nullptr) {
         raiz = new tNodoArbolBin;
@@ -22,22 +22,14 @@ void insertar(tNodoArbolBin*& raiz, int posicion) {
         std::cout << "Elemento ya ingresado" << std::endl;
     }
 }
-
+ */
 int main() {
     tABB treeBB;
     int pos_encendido = 0;
-
-    tNodoArbolBin* raiz = NULL;
-    insertar(raiz, 0);
-    insertar(raiz, 1);
-    insertar(raiz, 2);
-    insertar(raiz, 3);
-    insertar(raiz, 4);
-    insertar(raiz, 5);
-    insertar(raiz, 6);
-
+    tNodoArbolBin* raiz = nullptr;
     while (true)
     {
+
         string comando;
         cin >> comando;
 
@@ -46,9 +38,17 @@ int main() {
             int i;
             cin >> i;
             nodo.posicion = i;
-            if (!treeBB.find(nodo)){
+            if (!treeBB.find(nodo)){ // si no esta el nodo se incerta como true
+                nodo.encendido = true;
                 treeBB.insert(nodo);
                 pos_encendido++;
+            }
+            else{
+                tNodoArbolBin* nodo_puntero;
+                nodo_puntero = treeBB.findHelp(raiz,nodo); 
+                if (nodo_puntero->encendido != true){   //si es true no pasa nada
+                    nodo_puntero->encendido = true;
+                }
             }
         }
         else if (comando == "CUANTOS_ENCENDER"){
@@ -58,11 +58,10 @@ int main() {
             nodo.posicion = i;
             int cercano = treeBB.lower_bound(nodo);
             if (cercano == -1){
-                cout<<"uno"<<endl;
-                cout<<pos_encendido<<endl;
+                cout<<i+1<<endl;
             }
             else {
-                int count = cercano -i;
+                int count = i - cercano;
                 cout<<"dos"<<endl;
                 cout<<count <<endl;
             }

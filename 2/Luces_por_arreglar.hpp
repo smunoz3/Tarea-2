@@ -46,16 +46,17 @@ void tABB::BorrarArbol(tNodoArbolBin* nodo) {
         delete nodo;
     }
 }
-
+/* 
 void tABB::insert(tNodoArbolBin x){
     if (find(x)){
         std::cout<<"Elemento ya ingresado"<<std::endl;
         return;
     }
     raiz = insertHelp(raiz, x.posicion);
+    nElems++;
 }
-tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* nodo, int valor){
-    if (nodo == NULL) {
+tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* raiz, int valor){
+    if (raiz == NULL) {
         tNodoArbolBin* nuevoNodo = new tNodoArbolBin();         //new recordar borrar
         nuevoNodo->posicion = valor;
         nuevoNodo->encendido = false;
@@ -63,13 +64,44 @@ tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* nodo, int valor){
         nuevoNodo->izq = NULL;
         return nuevoNodo;  
     }
+    if (valor < raiz->posicion) {
+        raiz->izq = insertHelp(raiz->izq, valor);
+    } else if (valor > raiz->posicion) {
+        raiz->der = insertHelp(raiz->der, valor);
+    }
+    return raiz;
+}   
+ */
+void tABB::insert(tNodoArbolBin x) {
+    raiz = insertHelp(raiz, x.posicion);
+    nElems = x.posicion + 1;
+}
+
+tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* nodo, int valor) {
+    if (nodo == nullptr) {
+        // Creamos un nuevo nodo y lo retornamos como el nodo actual
+        tNodoArbolBin* nuevoNodo = new tNodoArbolBin;
+        nuevoNodo->posicion = valor;
+        nuevoNodo->encendido = false;
+        nuevoNodo->izq = nullptr;
+        nuevoNodo->der = nullptr;
+        return nuevoNodo;
+    }
+
     if (valor < nodo->posicion) {
+        // El valor es menor, por lo tanto, debe ir en el subárbol izquierdo
         nodo->izq = insertHelp(nodo->izq, valor);
     } else if (valor > nodo->posicion) {
+        // El valor es mayor, por lo tanto, debe ir en el subárbol derecho
         nodo->der = insertHelp(nodo->der, valor);
     }
     return nodo;
+
+
+
+
 }
+
 
 bool tABB::find(tNodoArbolBin item) {
     if (findHelp(raiz, item)!=NULL){
@@ -78,18 +110,18 @@ bool tABB::find(tNodoArbolBin item) {
     return false;
 }
 //
-tNodoArbolBin* tABB::findHelp(tNodoArbolBin *nodo, tNodoArbolBin item) {
-    if (nodo == NULL) { // item no está en el ABB
+tNodoArbolBin* tABB::findHelp(tNodoArbolBin *raiz, tNodoArbolBin item) {
+    if (raiz == NULL) { // item no está en el ABB
         return NULL;
     } 
-    if (nodo->posicion == item.posicion){
-        return nodo; // item encontrado
+    if (raiz->posicion == item.posicion){
+        return raiz; // item encontrado
     }
-    if (item.posicion < nodo->posicion){
-        return findHelp(nodo->izq, item);
+    if (item.posicion < raiz->posicion){
+        return findHelp(raiz->izq, item);
     }
     else{
-        return findHelp(nodo->der, item);
+        return findHelp(raiz->der, item);
     }
 }
 
@@ -103,11 +135,11 @@ int tABB::lower_bound(tNodoArbolBin x){
 }
 int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor){
     if (nodo == NULL){ // no encontro
-    std::cout<<"no encontro"<<std::endl;
+    //std::cout<<"no encontro"<<std::endl;
         return -1;
     }
-    if (nodo->posicion == valor){
-        std::cout<<"encontro"<<std::endl;
+    if (nodo->posicion <= valor){
+    //    std::cout<<"encontro"<<std::endl;
         return nodo->posicion;
     }
     if (valor < nodo->posicion) {
@@ -118,6 +150,7 @@ int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor){
     }
     return nodo->posicion;
 }
+
 
 
 
