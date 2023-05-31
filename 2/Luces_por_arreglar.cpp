@@ -5,11 +5,14 @@
 using namespace std;
 
 int main() {
+    //Crea el arbol
     tABB treeBB;
+    //Se definen nuevas variables que serán utilizadas más adelante
     int postes_encendidos = 0;
-    //tNodoArbolBin* raiz = nullptr;
     string comando;
     int i;
+    //Ver cual comando se realiza, y hacer los llamados
+    //a las funciones correspondientes
     while (true){
         cin >> comando;
         if (comando == "ENCENDER"){
@@ -18,7 +21,7 @@ int main() {
         }
         else if (comando == "CUANTOS_ENCENDER"){
             cin >> i;
-            CUANTOS_ENCENDER(treeBB,i,postes_encendidos);
+            CUANTOS_ENCENDER(treeBB,i);
         }
         else if (comando == "PARAR_PROGRAMA"){
             PARAR_PROGRAMA(postes_encendidos);
@@ -27,7 +30,3 @@ int main() {
     }
     return 0;
 } 
-
-// cd 2
-// g++ Luces_por_arreglar.cpp Luces_por_arreglar.hpp -o Luces -Wall
-// ./Luces

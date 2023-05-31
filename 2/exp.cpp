@@ -30,3 +30,10 @@ int main() {
 
 // g++ exp.cpp exp.hpp -o exp -Wall
 // ./exp
+
+// cd 2
+// g++ Luces_por_arreglar.cpp Luces_por_arreglar.hpp -o Luces -Wall
+// ./Luces
+
+//g++ Secuancia_de_Nucleotidos.cpp Secuancia_de_Nucleotidos.hpp -o nucleogods -Wall
+//./nucleogods < secuencias-nucleotidos.txt
