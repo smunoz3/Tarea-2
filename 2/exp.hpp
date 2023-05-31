@@ -122,14 +122,17 @@ void CUANTOS_ENCENDER(tABB& treeBB, int i, int& postes_encendidos) {
     int result = 0;
 
     if (treeBB.find(i)) {
+        std::cout<<"hola ??"<<std::endl;
         std::cout << result << std::endl;
         return;
     }
 
     int menor_o_igual = treeBB.lower_bound(i);
     if (menor_o_igual != -1) {
+        std::cout<<"hola migger??"<<std::endl;
         result = i - menor_o_igual;
     } else {
+        std::cout<<"hola migger_2.0??"<<std::endl;
         result = i + 1 - postes_encendidos;
     }
 
@@ -138,6 +141,7 @@ void CUANTOS_ENCENDER(tABB& treeBB, int i, int& postes_encendidos) {
 
 void PARAR_PROGRAMA(int postes_encendidos) {
     std::cout << postes_encendidos << std::endl;
+    
     exit(0);
 }
 
@@ -153,3 +157,13 @@ void PARAR_PROGRAMA(int postes_encendidos) {
 * Returns:
 * TipoRetorno, Descripción retorno
 *****/
+
+/* 
+int cercano = treeBB.lower_bound(i);
+            if (cercano == -1){
+                cout<<i+1<<endl;
+            }
+            else {
+                int count = i - cercano;
+                cout<<count <<endl;
+            } */

@@ -2,7 +2,7 @@
 
 struct tNodoArbolBin{
 int posicion;
-bool encendido;
+//bool encendido;
 tNodoArbolBin* izq;
 tNodoArbolBin* der;
 };
@@ -22,9 +22,6 @@ bool find(tNodoArbolBin x);     //bien
 tNodoArbolBin* findHelp(tNodoArbolBin *nodo, tNodoArbolBin item);
 int lower_bound(tNodoArbolBin x);
 int lower_boundHelp(tNodoArbolBin* nodo, int valor);
-/* void ENCENDER (int i);
-void CUANTOS_ENCENDER (int i);
-void PARAR_PROGRAMA(); */
 };
 
 tABB::tABB(){ //Constructor
@@ -40,51 +37,26 @@ tABB::~tABB() {
 
 //Con esto se borra el arbol recursivamente
 void tABB::BorrarArbol(tNodoArbolBin* nodo) {
-    if (nodo != nullptr) {
+    if (nodo != NULL) {
         BorrarArbol(nodo->izq);
         BorrarArbol(nodo->der);
         delete nodo;
     }
 }
-/* 
-void tABB::insert(tNodoArbolBin x){
-    if (find(x)){
-        std::cout<<"Elemento ya ingresado"<<std::endl;
-        return;
-    }
-    raiz = insertHelp(raiz, x.posicion);
-    nElems++;
-}
-tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* raiz, int valor){
-    if (raiz == NULL) {
-        tNodoArbolBin* nuevoNodo = new tNodoArbolBin();         //new recordar borrar
-        nuevoNodo->posicion = valor;
-        nuevoNodo->encendido = false;
-        nuevoNodo->der = NULL;
-        nuevoNodo->izq = NULL;
-        return nuevoNodo;  
-    }
-    if (valor < raiz->posicion) {
-        raiz->izq = insertHelp(raiz->izq, valor);
-    } else if (valor > raiz->posicion) {
-        raiz->der = insertHelp(raiz->der, valor);
-    }
-    return raiz;
-}   
- */
+
 void tABB::insert(tNodoArbolBin x) {
     raiz = insertHelp(raiz, x.posicion);
     nElems = x.posicion + 1;
 }
 
 tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* nodo, int valor) {
-    if (nodo == nullptr) {
+    if (nodo == NULL) {
         // Creamos un nuevo nodo y lo retornamos como el nodo actual
         tNodoArbolBin* nuevoNodo = new tNodoArbolBin;
         nuevoNodo->posicion = valor;
-        nuevoNodo->encendido = false;
-        nuevoNodo->izq = nullptr;
-        nuevoNodo->der = nullptr;
+        //nuevoNodo->encendido = false;
+        nuevoNodo->izq = NULL;
+        nuevoNodo->der = NULL;
         return nuevoNodo;
     }
 
@@ -96,10 +68,6 @@ tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* nodo, int valor) {
         nodo->der = insertHelp(nodo->der, valor);
     }
     return nodo;
-
-
-
-
 }
 
 
@@ -109,7 +77,7 @@ bool tABB::find(tNodoArbolBin item) {
     }
     return false;
 }
-//
+
 tNodoArbolBin* tABB::findHelp(tNodoArbolBin *raiz, tNodoArbolBin item) {
     if (raiz == NULL) { // item no está en el ABB
         return NULL;
@@ -125,21 +93,14 @@ tNodoArbolBin* tABB::findHelp(tNodoArbolBin *raiz, tNodoArbolBin item) {
     }
 }
 
-/* int tABB::lower_bound(tNodoArbolBin x){
-    int contador = 0;
-    return lower_boundHelp(raiz, x.posicion,contador); // revisar que retorna
-} */
-
 int tABB::lower_bound(tNodoArbolBin x){
     return lower_boundHelp(raiz, x.posicion);
 }
 int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor){
     if (nodo == NULL){ // no encontro
-    //std::cout<<"no encontro"<<std::endl;
         return -1;
     }
     if (nodo->posicion <= valor){
-    //    std::cout<<"encontro"<<std::endl;
         return nodo->posicion;
     }
     if (valor < nodo->posicion) {
@@ -151,53 +112,32 @@ int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor){
     return nodo->posicion;
 }
 
-
-
-
-/* int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor, int& contador){
-    contador ++;
-    if (nodo == NULL){
-        return -1;
-    }
-    if (nodo->posicion == valor){
-        return nodo->posicion;
-    }
-    if (valor < nodo->posicion){
-        return lower_boundHelp(nodo->izq, valor,contador);
-    }
-    if (valor > nodo->posicion){
-        return lower_boundHelp(nodo->der, valor,contador);
-    }
-    return nodo->posicion;
-} */
-
-/* void tABB::ENCENDER(int i){
+void ENCENDER(tABB& treeBB,int i, int& postes_encendidos){
     tNodoArbolBin nodo;
     nodo.posicion = i;
-    if (find(nodo)!=true){
+    if (!treeBB.find(nodo)){
+                treeBB.insert(nodo);
+                postes_encendidos++;
+            }
+}
+
+void CUANTOS_ENCENDER(tABB& treeBB, int i, int& postes_encendidos) {
+    tNodoArbolBin nodo;
+    nodo.posicion = i;
+    int resultado = 0;
+    if (treeBB.find(nodo)) {
+        std::cout << resultado << std::endl;
         return;
     }
-    tNodoArbolBin* nodo2;
-    nodo2 =findHelp(raiz, nodo);
-    if (nodo2->encendido !=true){
-        nodo2->encendido = true;
+    int menor_o_igual = treeBB.lower_bound(nodo);
+    if (menor_o_igual != -1) {
+        resultado = i - menor_o_igual;
+    } else {
+        resultado = i + 1 - postes_encendidos;
     }
-    return;
+    std::cout << resultado << std::endl;
 }
 
-void tABB::CUANTOS_ENCENDER (int i){
-    tNodoArbolBin* nodo;
-    nodo->posicion = i;
-    int nApagado = 0;
-    int resultado = lower_boundHelp(nodo,i,nApagado);
-    if (resultado != -1){
-        
-    }
-    else {
-        std::cout <<resultado<<std::endl;
-    }
+void PARAR_PROGRAMA(int postes_encendidos) {
+    std::cout << postes_encendidos << std::endl;
 }
-
-void tABB::PARAR_PROGRAMA(){
-    std::remove("system");
-} */
