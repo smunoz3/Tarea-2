@@ -1,7 +1,7 @@
 #include <iostream>
 
 // Struct del nodo del arbol binario
-struct tNodoArbolBin{
+struct tNodoArbolBin {
 int posicion;
 tNodoArbolBin* izq;
 tNodoArbolBin* der;
@@ -37,7 +37,7 @@ int lower_boundHelp(tNodoArbolBin* nodo, int valor, int &flag, int &salida);
 * Returns:
 * No retorna nada debido a que es el constructor.
 *****/
-tABB::tABB(){ 
+tABB::tABB() {
 raiz = NULL;
 nElems = 0;
 }
@@ -122,10 +122,10 @@ tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* nodo, int valor) {
         nuevoNodo->der = NULL;
         return nuevoNodo;
     }
-
     if (valor < nodo->posicion) {
         nodo->izq = insertHelp(nodo->izq, valor);
-    } else if (valor > nodo->posicion) {
+    }
+    else if (valor > nodo->posicion) {
         nodo->der = insertHelp(nodo->der, valor);
     }
     return nodo;
@@ -143,7 +143,7 @@ tNodoArbolBin* tABB::insertHelp(tNodoArbolBin* nodo, int valor) {
 * bool: retorna true en caso de existir y false en caso de no existir.
 *****/
 bool tABB::find(tNodoArbolBin item) {
-    if (findHelp(raiz, item)!=NULL){
+    if (findHelp(raiz, item)!=NULL) {
         return true;
     }
     return false;
@@ -171,10 +171,10 @@ tNodoArbolBin* tABB::findHelp(tNodoArbolBin *raiz, tNodoArbolBin item) {
     if (raiz == NULL) {
         return NULL;
     }
-    if (raiz->posicion == item.posicion){
+    if (raiz->posicion == item.posicion) {
         return raiz;
     }
-    else{
+    else {
         return findHelp(raiz->der, item);
     }
 }
@@ -192,9 +192,9 @@ tNodoArbolBin* tABB::findHelp(tNodoArbolBin *raiz, tNodoArbolBin item) {
 * Returns:
 * int: retorna la posicion del nodo menor.
 *****/
-int tABB::lower_bound(tNodoArbolBin x){
+int tABB::lower_bound(tNodoArbolBin x) {
     int flag =1;
-    int salida;
+    int salida = -1;
     return lower_boundHelp(raiz, x.posicion,flag,salida);
 }
 
@@ -217,19 +217,17 @@ int tABB::lower_bound(tNodoArbolBin x){
 * Returns:
 * int: posicion del nodo buscado, o -1 en caso de no encontrar.
 *****/
-int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor, int& flag,int& salida){
-    if(nodo ==NULL){
+int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor, int& flag,int& salida) {
+    if(nodo ==NULL) {
         return -1;
     }
     else {
         lower_boundHelp(nodo->der,valor,flag,salida);
-
-        if ((nodo->posicion <= valor) && (flag==1)){
+        if ((nodo->posicion <= valor) && (flag==1)) {
             flag = false;
             salida = nodo->posicion;
         }
         lower_boundHelp(nodo->izq,valor,flag,salida);
-
     }
     return salida;
 }
@@ -251,13 +249,13 @@ int tABB::lower_boundHelp(tNodoArbolBin* nodo, int valor, int& flag,int& salida)
 * Returns:
 * No retorna nada debido a que es una función del tipo void.
 *****/
-void ENCENDER(tABB& treeBB,int i, int& postes_encendidos){
+void ENCENDER(tABB& treeBB,int i, int& postes_encendidos) {
     tNodoArbolBin nodo;
     nodo.posicion = i;
-    if (!treeBB.find(nodo)){
-                treeBB.insert(nodo);
-                postes_encendidos++;
-            }
+    if (!treeBB.find(nodo)) {
+        treeBB.insert(nodo);
+        postes_encendidos++;
+    }
 }
 
 /*****
@@ -279,7 +277,7 @@ void ENCENDER(tABB& treeBB,int i, int& postes_encendidos){
 * Returns:
 * No retorna nada debido a que es una función del tipo void.
 *****/
-void CUANTOS_ENCENDER(tABB& treeBB, int i) {
+void  CUANTOS_ENCENDER(tABB& treeBB, int i) {
     tNodoArbolBin nodo;
     nodo.posicion = i;
     int resultado = 0;
@@ -290,7 +288,8 @@ void CUANTOS_ENCENDER(tABB& treeBB, int i) {
     int menor_o_igual = treeBB.lower_bound(nodo);
     if (menor_o_igual != -1) {
         resultado = i - menor_o_igual;
-    } else {
+    }
+    else {
         resultado = i + 1;
     }
     std::cout << resultado << std::endl;
@@ -309,4 +308,4 @@ void CUANTOS_ENCENDER(tABB& treeBB, int i) {
 *****/
 void PARAR_PROGRAMA(int postes_encendidos) {
     std::cout << postes_encendidos << std::endl;
-}
+} 

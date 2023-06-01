@@ -86,15 +86,15 @@ tListaNucleotidos::~tListaNucleotidos() {
 *****/
 void tListaNucleotidos::moveToPos(int i) {
     int j;
-    if (i < 0 || i > listSize){
+    if (i < 0 || i > listSize) {
         return ;
     }
     curr = head;
     pos = 0;
-    if (i == 0){
+    if (i == 0) {
         return;
     } ;
-    for (j = 0; j < i; j++ ){
+    for (j = 0; j < i; j++ ) {
         curr = curr->sig;
         pos++;
     }
@@ -200,7 +200,6 @@ void tListaNucleotidos::Borrados(int i) {
 * No retorna nada debido a que es una función del tipo void.
 *****/
 void tListaNucleotidos::Intercambios(int i, char n) {
-    //Intercambiar el nucleotido de la posición i por el nucleotido n
     if (i < 0 || i >= listSize) {
         return;
     }
@@ -225,14 +224,14 @@ void tListaNucleotidos::Intercambios(int i, char n) {
 * Returns:
 * No retorna nada debido a que es una función del tipo void.
 *****/
-void tListaNucleotidos::BorrarDatos(){
+void tListaNucleotidos::BorrarDatos() {
     curr = head;
-    while (curr != nullptr) {
+    while (curr != NULL) {
         tNodo* next = curr->sig;
         delete curr;
         curr = next;
     }
-    head = tail = curr = new tNodo; // Reinicializar los punteros
+    head = tail = curr = new tNodo; 
     listSize = 0;
     pos = 0;
 }
@@ -249,7 +248,7 @@ void tListaNucleotidos::BorrarDatos(){
 * Returns:
 * Se retorna el elemento que está en la posición i.
 *****/
-char tListaNucleotidos::InfoNodoActual(int i){
+char tListaNucleotidos::InfoNodoActual(int i) {
     moveToPos(i);
     return curr->nucleotido;
 }
@@ -265,6 +264,6 @@ char tListaNucleotidos::InfoNodoActual(int i){
 * Returns:
 * Se retorna un entero el cual contiene el tamaño de la lista.
 *****/
-int tListaNucleotidos::size_ListaNucleotidos(){
+int tListaNucleotidos::size_ListaNucleotidos() {
     return listSize;
 }
